@@ -146,16 +146,14 @@ namespace PhoneBook.Controllers
         // POST: Contacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
+        public async Task<IActionResult> DeleteConfirmed(int id){
             var contact = await _context.Contacts.FindAsync(id);
             _context.Contacts.Remove(contact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContactExists(int id)
-        {
+        private bool ContactExists(int id){
             return _context.Contacts.Any(e => e.ContactId == id);
         }
         public ActionResult export()
@@ -165,42 +163,64 @@ namespace PhoneBook.Controllers
             {
                 contactList.Add(item);
             }
+            var appRoot = constructPath();
 
-            using (var writer = new StreamWriter("D:\\files.csv"))
+            using (var writer = new StreamWriter(appRoot + "\\files.csv"))
             using (var csv = new CsvWriter(writer))
             {
                 csv.WriteRecords(contactList);
             }
-            return RedirectToAction("Index");
+
+            var file = appRoot + "\\files.csv";
+            return new PhysicalFileResult(@file, "application/csv");
         }
+
         public ActionResult print()
         {
-
             PdfDocument document = new PdfDocument();
+            draw(document);
+
+            var appRoot = constructPath();
+            document.Save(appRoot + "\\files.pdf");
+            var file = appRoot + "\\files.pdf";
+
+            return new PhysicalFileResult(@file, "application/pdf");
+        }
+
+        /// <summary>
+        /// Draw to passed pdf file
+        /// </summary>
+        /// <param name="document"></param>
+        private void draw(PdfDocument document)
+        {
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("Lato", 20.0, XFontStyle.Regular);
+            XFont fontHeader = new XFont("Lato", 24.0, XFontStyle.Regular);
+            XFont fontBody = new XFont("Lato", 16, XFontStyle.Regular);
+            int heightCount = 40;
+
+            gfx.DrawString("Report", fontHeader, XBrushes.Black, new XRect(20, 0, page.Width, page.Height), XStringFormats.TopLeft);
+
+            foreach (var contact in _context.Contacts)
+            {
+                heightCount += 25;
+                String output = contact.First_name + " " + contact.Last_name + " " + contact.Cell_phone + " " + contact.Home_phone;
+                gfx.DrawString(output,fontBody, XBrushes.Black, new XRect(20, heightCount, page.Width, page.Height), XStringFormats.TopLeft);
+            }
+        }
+
+        /// <summary>
+        /// Construct path to project root
+        /// </summary>
+        /// <returns>String</returns>
+        private string constructPath()
+        {
             Regex appPathMatcher = new Regex(@"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)");
             var exePath = Path.GetDirectoryName(System.Reflection
                 .Assembly.GetExecutingAssembly().CodeBase);
-
             var appRoot = appPathMatcher.Match(exePath).Value;
-            document.Save(appRoot + "\\files.pdf");
-            var file = appRoot + "\\files.pdf";
-            int heightCount = 40;
 
-            gfx.DrawString("Report", font, XBrushes.Black, new XRect(20, 0, page.Width, page.Height), XStringFormats.TopLeft);
-
-            
-            foreach (var item in _context.Contacts)
-            {
-
-                heightCount += 40;
-                gfx.DrawString(item.First_name + " " + item.Last_name + " " + item.Cell_phone + " " + item.Home_phone, font, 
-                    XBrushes.Black, new XRect(20, heightCount, page.Width, page.Height), XStringFormats.TopLeft);
-            }
-
-            return new PhysicalFileResult(@file, "application/pdf");
+            return appRoot;
         }
     }
 }

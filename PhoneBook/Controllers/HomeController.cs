@@ -180,22 +180,26 @@ namespace PhoneBook.Controllers
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
             XFont font = new XFont("Lato", 20.0, XFontStyle.Regular);
-            gfx.DrawString("Report", font, XBrushes.Black, new XRect(20, 0, page.Width, page.Height), XStringFormats.TopLeft);
-            var contactList = new List<Contact> { };
+            Regex appPathMatcher = new Regex(@"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)");
+            var exePath = Path.GetDirectoryName(System.Reflection
+                .Assembly.GetExecutingAssembly().CodeBase);
 
+            var appRoot = appPathMatcher.Match(exePath).Value;
+            document.Save(appRoot + "\\files.pdf");
+            var file = appRoot + "\\files.pdf";
             int heightCount = 40;
+
+            gfx.DrawString("Report", font, XBrushes.Black, new XRect(20, 0, page.Width, page.Height), XStringFormats.TopLeft);
+
+            
             foreach (var item in _context.Contacts)
             {
 
                 heightCount += 40;
-                gfx.DrawString(item.First_name + " " + item.Last_name + " " + item.Cell_phone + " " + item.Home_phone, font, XBrushes.Black, new XRect(20, heightCount, page.Width, page.Height), XStringFormats.TopLeft);
+                gfx.DrawString(item.First_name + " " + item.Last_name + " " + item.Cell_phone + " " + item.Home_phone, font, 
+                    XBrushes.Black, new XRect(20, heightCount, page.Width, page.Height), XStringFormats.TopLeft);
             }
-            var exePath = Path.GetDirectoryName(System.Reflection
-                   .Assembly.GetExecutingAssembly().CodeBase);
-            Regex appPathMatcher = new Regex(@"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)");
-            var appRoot = appPathMatcher.Match(exePath).Value;
-            document.Save(appRoot + "\\files.pdf");
-            var file = appRoot + "\\files.pdf";
+
             return new PhysicalFileResult(@file, "application/pdf");
         }
     }

@@ -1,0 +1,72 @@
+﻿@model PhoneBook.Models.Contact
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Contact</h4>
+<hr />
+<div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" class="floating">
+                <div class="form-group">
+                    <label asp-for="First_name" class="control-label"></label>
+                    <input asp-for="First_name" PlaceHolder="Enter First Name" class="form-control" Text="Test" autofocus />
+                    <span asp-validation-for="First_name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Last_name" class="control-label"></label>
+                    <input asp-for="Last_name" PlaceHolder="Enter Last Name" class="form-control" />
+                    <span asp-validation-for="Last_name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Middle_initial" class="control-label"></label>
+                    <input asp-for="Middle_initial" PlaceHolder="Enter Letter" class="form-control" />
+                    <span asp-validation-for="Middle_initial" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Home_phone" class="control-label"></label>
+                    <input asp-for="Home_phone" PlaceHolder="Enter full Phone number" class="form-control" />
+                    <span asp-validation-for="Home_phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cell_phone" class="control-label"></label>
+                    <input asp-for="Cell_phone" PlaceHolder="Enter full cell number" class="form-control" />
+                    <span asp-validation-for="Cell_phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Office_ext" class="control-label"></label>
+                    <input asp-for="Office_ext" PlaceHolder="Enter Office Extension" class="form-control" />
+                    <span asp-validation-for="Office_ext" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IRD" class="control-label"></label>
+                    <input asp-for="IRD" class="form-control" />
+                    <span asp-validation-for="IRD" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="active" /> @Html.DisplayNameFor(model => model.active)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+                <a asp-action="Index">Back to List</a>
+            </form>
+        </div>
+            
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

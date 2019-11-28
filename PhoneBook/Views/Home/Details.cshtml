@@ -1,0 +1,68 @@
+﻿@model PhoneBook.Models.Contact
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="floating">
+    <h4 class="centered">Contact</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.First_name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.First_name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Last_name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Last_name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Middle_initial)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Middle_initial)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Home_phone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Home_phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cell_phone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cell_phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Office_ext)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Office_ext)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IRD)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IRD)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.active)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.active)
+        </dd>
+    </dl>
+    <div class="centered">
+        <a asp-action="Edit" asp-route-id="@Model.ContactId" class="btn btn-default">Edit</a>
+
+    </div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

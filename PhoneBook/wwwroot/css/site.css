@@ -3,6 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: Lato;
 }
 
 /* Wrapping element */
@@ -10,11 +11,20 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    
+}
+thead {
+    background: #303030;
+    color: #f8f8a6;
+}
+
+tr:nth-child(2n) {
+    background: #f8f8a6;
 }
 
 /* Carousel */
 .carousel-caption p {
-    font-size: 20px;
+    font-size: 5px;
     line-height: 1.4;
 }
 
@@ -27,6 +37,29 @@ body {
 #qrCode {
     margin: 15px;
 }
+.resultMessage {
+    padding-top: 7em;
+    text-align: center;
+    padding-bottom: 14em;
+}
+tr {
+    height: 30px;
+}
+.floating {
+    padding: 20px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    background-color: #f8f8a6;
+    width: 360px;
+}
+.check{
+    width: 1.1em;
+    height: 1.1em;
+}
+.centered{
+    text-align: center;
+}
+
+
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
@@ -35,3 +68,4 @@ body {
         display: none;
     }
 }
+

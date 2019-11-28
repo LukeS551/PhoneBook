@@ -199,13 +199,16 @@ namespace PhoneBook.Controllers
             XFont fontBody = new XFont("Lato", 16, XFontStyle.Regular);
             int heightCount = 40;
 
-            gfx.DrawString("Report", fontHeader, XBrushes.Black, new XRect(20, 0, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Report", fontHeader, XBrushes.Black, new XRect
+                (20, 0, page.Width, page.Height), XStringFormats.TopLeft);
 
             foreach (var contact in _context.Contacts)
             {
                 heightCount += 25;
-                String output = contact.First_name + " " + contact.Last_name + " " + contact.Cell_phone + " " + contact.Home_phone;
-                gfx.DrawString(output,fontBody, XBrushes.Black, new XRect(20, heightCount, page.Width, page.Height), XStringFormats.TopLeft);
+                String output = contact.First_name + " " + contact.Last_name + 
+                    " " + contact.Cell_phone + " " + contact.Home_phone;
+                gfx.DrawString(output,fontBody, XBrushes.Black, new XRect
+                    (20, heightCount, page.Width, page.Height), XStringFormats.TopLeft);
             }
         }
 
